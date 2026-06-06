@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { db, messagesTable } from "@workspace/db";
-import { count } from "drizzle-orm";
 import { CreateMessageBody } from "@workspace/api-zod";
 import { sendWhatsAppMessage } from "../lib/twilio";
 
 const router = Router();
+let inMemoryCount = 0;
 
 router.post("/messages", async (req, res) => {
   const result = CreateMessageBody.safeParse(req.body);
@@ -14,26 +13,21 @@ router.post("/messages", async (req, res) => {
   }
 
   const { content, name } = result.data;
-
-  const [message] = await db
-    .insert(messagesTable)
-    .values({ content, name: name ?? null })
-    .returning();
+  inMemoryCount++;
 
   // Send WhatsApp message asynchronously
   sendWhatsAppMessage(content).catch(() => {});
 
   res.status(201).json({
-    id: message.id,
-    content: message.content,
-    name: message.name,
-    createdAt: message.createdAt.toISOString(),
+    id: Math.floor(Math.random() * 1000000),
+    content,
+    name: name ?? null,
+    createdAt: new Date().toISOString(),
   });
 });
 
 router.get("/messages/count", async (_req, res) => {
-  const [row] = await db.select({ count: count() }).from(messagesTable);
-  res.json({ count: row.count });
+  res.json({ count: inMemoryCount });
 });
 
 export default router;
