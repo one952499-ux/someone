@@ -12,6 +12,14 @@ export async function sendWhatsAppMessage(message: string): Promise<void> {
     return;
   }
 
+  logger.info({
+    accountSidPrefix: accountSid ? `${accountSid.substring(0, 6)}...` : undefined,
+    authTokenLength: authToken ? authToken.length : 0,
+    authTokenPrefix: authToken ? `${authToken.substring(0, 4)}...` : undefined,
+    from,
+    to
+  }, "Attempting to send Twilio message with config");
+
   try {
     const client = twilio(accountSid, authToken);
     // Ensure numbers are prefixed with 'whatsapp:' if not already
