@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Dancing+Script:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: #080005;
+  --color-foreground: #fdf2f8;
+  
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-cursive: 'Dancing Script', cursive;
+  
+  --color-primary: #f43f8e;
+  --color-primary-foreground: #ffffff;
+}
+
+:root {
+  --background: 300 80% 2%;
+  --foreground: 320 60% 97%;
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+    background-color: #080005;
+    color: #fdf2f8;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.92); }
+}
+
+@keyframes petal-fall {
+  0%   { transform: translateY(-5vh) rotate(0deg) translateX(0px); opacity: 0; }
+  8%   { opacity: 0.7; }
+  88%  { opacity: 0.3; }
+  100% { transform: translateY(105vh) rotate(540deg) translateX(40px); opacity: 0; }
+}
+
+@keyframes petal-sway {
+  0%   { margin-left: 0; }
+  25%  { margin-left: 18px; }
+  75%  { margin-left: -14px; }
+  100% { margin-left: 0; }
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
